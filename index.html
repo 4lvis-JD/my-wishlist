@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles/styles.css" type="text/css" />
+  <title>Mi Wishlist</title>
+</head>
+<body>
+  <header>
+    <h1>Mi Wishlist</h1>
+  </header>
+
+  <form id="addForm">
+    <input type="text" id="name" placeholder="Nombre del producto" required />
+    <input type="text" id="price" placeholder="Precio (ej: $30)" required />
+    <input type="url" id="image" placeholder="URL de la imagen" required />
+    <input type="url" id="link" placeholder="Enlace de compra (opcional)" />
+    <button type="submit">Agregar a la lista</button>
+  </form>
+  <main class="wishlist" id="wishlist"></main>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

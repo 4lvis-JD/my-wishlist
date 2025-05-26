@@ -1,0 +1,277 @@
+/* --- GENERAL --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  padding: 1rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  color: #007bff;
+}
+
+/* --- FORMULARIO --- */
+form {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* --- WISHLIST --- */
+#wishlist {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* --- CARD --- */
+.card {
+  background: #f4f7fa;
+  border-radius: 12px;
+  border: 1px solid #d0d4d8;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  width: 308px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+  width: 90%;
+  height: 180px;
+  object-fit: contain;
+  background-color: #fff;
+  padding: 0.5rem;
+  padding-top: 1rem;
+  margin: 0 auto;
+  display: block;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+}
+
+.view-mode {
+  flex-grow: 1;
+}
+
+.card-content .view-mode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content input {
+  width: 100%;
+  margin: 0.4rem 0;
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card-content button {
+  margin: 0;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.card-content button:hover {
+  opacity: 0.9;
+}
+
+.card-content button:active {
+  transform: scale(0.98);
+}
+
+.card-content button:nth-child(5) {
+  background-color: #0077cc;
+  color: white;
+}
+
+.card-content h2 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+  color: #222;
+}
+
+/* --- PRECIO ESTÉTICO --- */
+.price {
+  display: inline-block;
+  background-color: #e0f7fa;
+  color: #00796b;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* --- CHECKBOX PERSONALIZADO --- */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 0.8rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkbox-group input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+
+.checkbox-group label {
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Efecto cuando el producto está marcado como comprado */
+.card.purchased {
+  opacity: 0.8;
+  transition:  0.4s ease;
+}
+
+.card.purchased h2,
+.card.purchased .price {
+  text-decoration: line-through;
+  color: #888;
+}
+
+
+/* --- BOTONES --- */
+.button-group,
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #00b0ff;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #0091ea;
+}
+
+.btn-blue {
+  background-color: #007bff;
+  color: white;
+}
+.btn-blue:hover {
+  background-color: #0056b3;
+}
+
+.btn-red {
+  background-color: #dc3545;
+  color: white;
+}
+.btn-red:hover {
+  background-color: #c82333;
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width: 600px) {
+  #wishlist {
+    padding: 1rem;
+  }
+}
