@@ -1,18 +1,19 @@
 let products = [];
 const status = {};
 
-firebase.database().ref("wishlistProducts").once("value").then(snapshot => {
+firebase.database().ref("wishlistProducts").on("value", snapshot => {
   if (snapshot.exists()) {
     products = snapshot.val();
+  } else {
+    products = [];
   }
 
   firebase.database().ref("wishlistStatus").once("value").then(statusSnap => {
     if (statusSnap.exists()) {
       Object.assign(status, statusSnap.val());
     }
-
-    loadWishlist(); // Cargar la UI después de obtener los datos
-  });
+    loadWishlist();
+  });
 });
 
 function saveProducts() {
