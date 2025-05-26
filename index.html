@@ -19,6 +19,23 @@
     <button type="submit">Agregar a la lista</button>
   </form>
   <main class="wishlist" id="wishlist"></main>
+  <!-- Firebase SDK sin módulos -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDlUo0CwIbga4gTo4fpiV7PxWaHeQov6hs",
+      authDomain: "wishlist-firebase-2cc72.firebaseapp.com",
+      projectId: "wishlist-firebase-2cc72",
+      storageBucket: "wishlist-firebase-2cc72.firebasestorage.app",
+      messagingSenderId: "576166519886",
+      appId: "1:576166519886:web:bc17f40a3e84409285cf1f",
+      databaseURL: "https://wishlist-firebase-2cc72-default-rtdb.firebaseio.com"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <script src="scripts/main.js"></script>
 </body>
 </html>

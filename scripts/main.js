@@ -1,31 +1,23 @@
-let products = JSON.parse(localStorage.getItem("wishlistProducts")) || [
-  {
-    id: 1,
-    name: "Auriculares Bluetooth",
-    price: "$30",
-    image: "https://via.placeholder.com/300x180?text=Auriculares",
-    link: ""
-  },
-  {
-    id: 2,
-    name: "Monitor 24 pulgadas",
-    price: "$150",
-    image: "https://via.placeholder.com/300x180?text=Monitor",
-    link: ""
-  },
-  {
-    id: 3,
-    name: "Teclado Mecánico",
-    price: "$50",
-    image: "https://via.placeholder.com/300x180?text=Teclado",
-    link: ""
-  },
-];
+let products = [];
+const status = {};
 
-const status = JSON.parse(localStorage.getItem("wishlistStatus") || '{}');
+firebase.database().ref("wishlistProducts").once("value").then(snapshot => {
+  if (snapshot.exists()) {
+    products = snapshot.val();
+  }
+
+  firebase.database().ref("wishlistStatus").once("value").then(statusSnap => {
+    if (statusSnap.exists()) {
+      Object.assign(status, statusSnap.val());
+    }
+
+    loadWishlist(); // Cargar la UI después de obtener los datos
+  });
+});
 
 function saveProducts() {
-  localStorage.setItem("wishlistProducts", JSON.stringify(products));
+  firebase.database().ref("wishlistProducts").set(products);
+  firebase.database().ref("wishlistStatus").set(status);
 }
 
 function loadWishlist() {
@@ -80,7 +72,7 @@ function loadWishlist() {
 
 function togglePurchased(id, checked) {
   status[id] = checked;
-  localStorage.setItem("wishlistStatus", JSON.stringify(status));
+  firebase.database().ref("wishlistStatus").set(status);
 
   const card = document.querySelector(`#check-${id}`).closest(".card");
   if (checked) {
@@ -120,7 +112,6 @@ function saveEdit(id) {
 }
 
 // Formulario para agregar nuevos productos
-
 document.getElementById("addForm").addEventListener("submit", function (e) {
   e.preventDefault();
   const name = document.getElementById("name").value;
@@ -143,13 +134,10 @@ document.getElementById("addForm").addEventListener("submit", function (e) {
 loadWishlist();
 
 // Función para eliminar un producto
-
-
-
 function deleteProduct(id) {
   products = products.filter(p => p.id !== id);
   delete status[id];
   saveProducts();
-  localStorage.setItem("wishlistStatus", JSON.stringify(status));
+  firebase.database().ref("wishlistStatus").set(status);
   loadWishlist();
 }
