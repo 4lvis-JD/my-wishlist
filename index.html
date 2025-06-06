@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="imgs/favicon/favicon.ico"image/x-icon">
   <link rel="stylesheet" href="styles/styles.css" type="text/css" />
-  <title>Mi Wishlist</title>
+  <title>Wishlist Web App</title>
 </head>
 <body data-loading="true">
+  <div id="loader" class="loader-wrapper">
+    <div class="loader"></div>
+    <p>Cargando tu wishlist...</p>
+  </div>
   <header>
-    <h1>Mi Wishlist</h1>
+    <h1>Wishlist Web App</h1>
   </header>
 
   <!-- Sección de login/registro -->
@@ -24,8 +29,8 @@
   </section>
 
   <!-- Botón de cerrar sesión y saludo -->
-  <section id="logoutSection" style="display: none; text-align: center; margin-top: 1rem;">
-    <p id="welcomeMessage" style="margin-bottom: 0.5rem; font-weight: bold;"></p>
+  <section id="logoutSection">
+    <p id="welcomeMessage">👋 Hola, usuario@example.com</p>
     <button onclick="logout()" id="logoutBtn">Cerrar sesión</button>
   </section>
 
