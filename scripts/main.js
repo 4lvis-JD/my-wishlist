@@ -1,26 +1,81 @@
+let currentUser = null;
 let products = [];
 const status = {};
 
-firebase.database().ref("wishlistProducts").on("value", snapshot => {
-  if (snapshot.exists()) {
-    products = snapshot.val();
-  } else {
-    products = [];
-  }
+// 🔐 AUTENTICACIÓN
+firebase.auth().onAuthStateChanged(user => {
+  currentUser = user;
 
-  firebase.database().ref("wishlistStatus").once("value").then(statusSnap => {
-    if (statusSnap.exists()) {
-      Object.assign(status, statusSnap.val());
-    }
-    loadWishlist();
-  });
+  if (user) {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("addForm").style.display = "block";
+    document.getElementById("wishlist").style.display = "block";
+    document.getElementById("logoutSection").style.display = "block";
+
+    document.getElementById("welcomeMessage").textContent = `👋 Hola, ${user.email}.`;
+
+    loadData();
+  } else {
+    document.getElementById("auth").style.display = "block";
+    document.getElementById("addForm").style.display = "none";
+    document.getElementById("wishlist").style.display = "none";
+    document.getElementById("logoutSection").style.display = "none";
+    document.getElementById("welcomeMessage").textContent = "";
+    currentUser = null;
+  }
+  document.body.setAttribute("data-loading", "false");
 });
 
-function saveProducts() {
-  firebase.database().ref("wishlistProducts").set(products);
-  firebase.database().ref("wishlistStatus").set(status);
+function logout() {
+  firebase.auth().signOut();
 }
 
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .catch(error => showAuthMessage(error.message));
+}
+
+function register() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .catch(error => showAuthMessage(error.message));
+}
+
+function showAuthMessage(msg) {
+  document.getElementById("authMessage").textContent = msg;
+}
+
+// 🔗 RUTAS POR USUARIO
+function getUserRef(path) {
+  return firebase.database().ref(`users/${currentUser.uid}/${path}`);
+}
+
+// 📥 CARGAR DATOS
+function loadData() {
+  getUserRef("wishlistProducts").on("value", snapshot => {
+    const data = snapshot.val();
+    products = Array.isArray(data) ? data : Object.values(data || {});
+
+    getUserRef("wishlistStatus").once("value").then(statusSnap => {
+      if (statusSnap.exists()) {
+        Object.assign(status, statusSnap.val());
+      }
+      loadWishlist();
+    });
+  });
+}
+
+// 💾 GUARDAR DATOS
+function saveProducts() {
+  if (!currentUser) return;
+  getUserRef("wishlistProducts").set(products);
+  getUserRef("wishlistStatus").set(status);
+}
+
+// 🧩 FUNCIONES UI
 function loadWishlist() {
   const container = document.getElementById("wishlist");
   container.innerHTML = "";
@@ -29,8 +84,9 @@ function loadWishlist() {
     const card = document.createElement("div");
     card.className = "card";
     if (status[product.id]) {
-    card.classList.add("purchased");
-  }
+      card.classList.add("purchased");
+    }
+
     card.innerHTML = `
     <div class="card-image">
       <img src="${product.image}" alt="${product.name}" />
@@ -73,14 +129,10 @@ function loadWishlist() {
 
 function togglePurchased(id, checked) {
   status[id] = checked;
-  firebase.database().ref("wishlistStatus").set(status);
+  saveProducts();
 
   const card = document.querySelector(`#check-${id}`).closest(".card");
-  if (checked) {
-    card.classList.add("purchased");
-  } else {
-    card.classList.remove("purchased");
-  }
+  card.classList.toggle("purchased", checked);
 }
 
 function editProduct(id) {
@@ -103,22 +155,20 @@ function saveEdit(id) {
 
   const index = products.findIndex(p => p.id === id);
   if (index !== -1) {
-    products[index].name = name;
-    products[index].price = price;
-    products[index].image = image;
-    products[index].link = link;
+    products[index] = { ...products[index], name, price, image, link };
     saveProducts();
     loadWishlist();
   }
 }
 
-// Formulario para agregar nuevos productos
+// ➕ AGREGAR NUEVO PRODUCTO
 document.getElementById("addForm").addEventListener("submit", function (e) {
   e.preventDefault();
   const name = document.getElementById("name").value;
   const price = document.getElementById("price").value;
   const image = document.getElementById("image").value;
   const link = document.getElementById("link").value;
+
   const newProduct = {
     id: Date.now(),
     name,
@@ -126,19 +176,19 @@ document.getElementById("addForm").addEventListener("submit", function (e) {
     image,
     link,
   };
-  products.push(newProduct);
-  saveProducts();
-  loadWishlist();
-  this.reset();
+
+  if (currentUser) {
+    products.push(newProduct);
+    saveProducts();
+    loadWishlist();
+    document.getElementById("addForm").reset();
+  }
 });
 
-loadWishlist();
-
-// Función para eliminar un producto
+// 🗑️ ELIMINAR PRODUCTO
 function deleteProduct(id) {
   products = products.filter(p => p.id !== id);
   delete status[id];
   saveProducts();
-  firebase.database().ref("wishlistStatus").set(status);
   loadWishlist();
 }

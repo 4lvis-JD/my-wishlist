@@ -48,6 +48,11 @@ form button {
   padding: 0.7rem 1.5rem;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
 }
 
 /* --- WISHLIST --- */
@@ -274,4 +279,80 @@ form button {
   #wishlist {
     padding: 1rem;
   }
+}
+
+/* Estilos generales para login */
+#auth {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+#auth input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.auth-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.auth-buttons button {
+  flex: 1;
+  margin: 0 0.25rem;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #80b3ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-buttons button:hover {
+  background-color: #5e94ff;
+}
+
+#authMessage {
+  margin-top: 1rem;
+  color: rgb(0, 0, 255);
+  font-size: 0.9rem;
+}
+
+/* Ocultar wishlist mientras no hay usuario */
+#wishlist {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#logoutSection button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #80b1ff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#logoutSection button:hover {
+  background-color: #5283ff;
+}
+
+body[data-loading="true"] #auth,
+body[data-loading="true"] #addForm,
+body[data-loading="true"] #wishlist,
+body[data-loading="true"] #logoutSection {
+  display: none !important;
 }
